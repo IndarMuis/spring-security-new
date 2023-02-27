@@ -1,0 +1,22 @@
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/jwt_security?useSSL=false
+    username: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 600000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database: MYSQL
+    properties:
+      hibernate:
+        format_sql: true
+server:
+  port: 8090
