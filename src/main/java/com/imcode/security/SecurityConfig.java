@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.authentication.configuration.EnableGlobalAuthentication;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -21,7 +22,6 @@ import java.security.Key;
 
 @AllArgsConstructor
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig {
 
 	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -32,8 +32,10 @@ public class SecurityConfig {
 				.csrf().disable()
 				.authorizeHttpRequests(auth -> {
 					auth.requestMatchers("/v1/auth/**").permitAll();
-//					auth.requestMatchers("/v1/profile").hasRole("ROLE_USER");
-					auth.anyRequest().authenticated();
+					auth.requestMatchers("/v1/**").hasAuthority("ADMIN");
+
+					//auth.requestMatchers("/v1/profile").hasRole("ADMIN");
+					//auth.anyRequest().authenticated();
 				})
 				.exceptionHandling(handler -> handler.authenticationEntryPoint(jwtAuthenticationEntryPoint))
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
